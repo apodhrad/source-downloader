@@ -28,20 +28,28 @@ public class SourceDownloader {
 	private String targetFolder;
 	private String currentLocation;
 	private Stack<String> stack;
+	
+	private String matcher;
 
 	public static void main(String[] args) throws Exception {
 		String version = DEFAULT_VERSION;
 		if (args.length > 0) {
 			version = args[0];
+		} 
+		String matcher = "";
+		if (args.length > 1) {
+			matcher = args[1];
 		}
 		String folder = System.getProperty(FOLDER_PROPERTY, System.getProperty("user.home"));
 		String targetFolder = folder + "/source-downloader/" + version;
-		new SourceDownloader("http://download.eclipse.org/releases/" + version, targetFolder).downloadSources();
+		String url = "http://download.eclipse.org/releases/" + version;
+		new SourceDownloader(url, targetFolder, matcher).downloadSources();
 	}
 
-	public SourceDownloader(String url, String targetFolder) {
+	public SourceDownloader(String url, String targetFolder, String matcher) {
 		this.url = url;
 		this.targetFolder = targetFolder;
+		this.matcher = matcher;
 
 		stack = new Stack<String>();
 		stack.push("compositeArtifacts.jar");
@@ -109,7 +117,7 @@ public class SourceDownloader {
 				String classifier = attributes.getValue("classifier");
 				String id = attributes.getValue("id");
 				String version = attributes.getValue("version");
-				if (classifier.equals("osgi.bundle") && id.endsWith("launcher.source")) {
+				if (classifier.equals("osgi.bundle") && id.endsWith(".source") && id.contains(matcher)) {
 					stack.push(currentLocation + "/plugins/" + id + "_" + version + ".jar");
 				}
 			}
