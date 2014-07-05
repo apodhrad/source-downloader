@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+  <description>To install these features, point Eclipse at this site.</description>
+
+  <category-def label="Source Downloader" name="source_downloader">
+    <description>Source Downloader</description>
+  </category-def>
+  <category-def label="Source Downloader Source" name="source_downloader.source">
+    <description>Source Downloader Source</description>
+  </category-def>
+
+  <bundle id="org.apodhrad.eclipse.source_downloader">
+    <category name="source_downloader"/>
+  </bundle>
+  <bundle id="org.apodhrad.eclipse.source_downloader.source">
+    <category name="source_downloader.source"/>
+  </bundle>
+</site>
